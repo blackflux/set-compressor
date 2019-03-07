@@ -2,7 +2,7 @@
   "defaultBranch": "master",
   "contribBranch": "dev",
   "repository": {
-    "url": "https://github.com/blackflux/sequence-compressor.git"
+    "url": "https://github.com/blackflux/set-compressor.git"
   },
   "branches": {
     "dev": {
