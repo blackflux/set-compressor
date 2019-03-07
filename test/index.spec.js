@@ -27,7 +27,7 @@ describe('Testing Functionality', () => {
   });
 
   it('Test Random Bits', () => {
-    for (let n = 0; n < 1000; n += 1){
+    for (let n = 0; n < 1000; n += 1) {
       const input = [];
       const perentage = Math.random();
       for (let i = 0; i < 10000; i += 1) {
