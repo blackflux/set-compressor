@@ -45,7 +45,7 @@ describe('Testing Functionality', () => {
   });
 
   it('Batch Testing Correctness', () => {
-    for (let count = 0; count < 500; count += 1) {
+    for (let count = 0; count < 1000; count += 1) {
       const input = new Set();
       const subSetsCount = Math.floor(Math.random() * 10);
       for (let subSet = 0; subSet < subSetsCount; subSet += 1) {
@@ -58,5 +58,5 @@ describe('Testing Functionality', () => {
       const toValidate = [...input].sort((a, b) => a - b);
       validate(toValidate);
     }
-  });
+  }).timeout(10000);
 });
