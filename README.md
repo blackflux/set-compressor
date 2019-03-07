@@ -26,9 +26,9 @@ We want to store this efficiently. This is where this utility comes in.
 const seq = require('sequence-compressor')({/* options */});
 
 seq.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-// => AAEBAQEBAQEBAQEB
+// => /wc=
 
-seq.decompress('AAEBAQEBAQEBAQEB');
+seq.decompress('/wc=');
 // => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 ```

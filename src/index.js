@@ -1,4 +1,6 @@
+/* eslint-disable no-bitwise */
 const zlib = require('zlib');
+const assert = require('assert');
 
 
 module.exports = (args) => {
@@ -8,24 +10,36 @@ module.exports = (args) => {
 
   return {
     compress: (array) => {
-      const uncompressed = Buffer.alloc(Math.max(0, ...array) + 1);
+      const uncompressed = Buffer.alloc(Math.ceil((Math.max(0, ...array) + 2) / 8));
       array.forEach((entry) => {
-        uncompressed[entry] = 1;
+        uncompressed[Math.floor(entry / 8)] |= (1 << (entry % 8));
       });
       const compressed = zlib.gzipSync(uncompressed, { level: options.gzipLevel });
-      return (
-        compressed.length < uncompressed.length
-          ? Buffer.concat([Buffer.from([1]), compressed])
-          : Buffer.concat([Buffer.from([0]), uncompressed])
-      ).toString('base64');
+
+      // Last byte of uncompressed and compressed is zero
+      // => uncompressed: by definition
+      // => compressed: contains ISIZE, so is zero unless input gets HUGE (several GB)
+      assert((uncompressed[uncompressed.length - 1] & (1 << 7)) === 0);
+      assert((compressed[compressed.length - 1] & (1 << 7)) === 0);
+
+      compressed[compressed.length - 1] |= (1 << 7);
+      return (compressed.length < uncompressed.length ? compressed : uncompressed).toString('base64');
     },
     decompress: (string) => {
       const decoded = Buffer.from(string, 'base64');
-      const uncompressed = decoded[0] !== 0 ? zlib.gunzipSync(decoded.slice(1)) : decoded.slice(1);
+      let uncompressed;
+      if ((decoded[decoded.length - 1] & (1 << 7)) !== 0) {
+        decoded[decoded.length - 1] &= ~(1 << 7);
+        uncompressed = zlib.gunzipSync(decoded);
+      } else {
+        uncompressed = decoded;
+      }
       const array = [];
       uncompressed.forEach((e, idx) => {
-        if (e === 1) {
-          array.push(idx);
+        for (let bit = 0; bit < 8; bit += 1) {
+          if ((e & (1 << bit)) !== 0) {
+            array.push(idx * 8 + bit);
+          }
         }
       });
       return array;

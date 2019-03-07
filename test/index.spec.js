@@ -17,15 +17,15 @@ describe('Testing Functionality', () => {
 
   it('Testing Compression', () => {
     expect(seq.compress(Array.from(Array(10000).keys())))
-      .to.deep.equal('AR+LCAAAAAAAAgPtwQEJAAAAwyDWv/RzHNQCAAAAAAAAAACAfwMZ8DnIECcAAA==');
+      .to.deep.equal('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
     expect(seq.compress([10000]))
-      .to.deep.equal('AR+LCAAAAAAAAgPtwQEJAAAAAqD6f7odgZoAAAAAAAAAAADAvw4e6Z55EScAAA==');
+      .to.deep.equal('H4sIAAAAAAACA2NgGAWjYBSMguEKGAGZHN5k4wQAgA==');
   });
 
   it('Testing Readme Base Example', () => {
     expect(seq.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
-      .to.deep.equal('AAEBAQEBAQEBAQEB');
-    expect(seq.decompress('AAEBAQEBAQEBAQEB'))
+      .to.deep.equal('/wc=');
+    expect(seq.decompress('/wc='))
       .to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
   });
 
@@ -35,7 +35,7 @@ describe('Testing Functionality', () => {
   });
 
   it('Batch Testing Correctness', () => {
-    for (let count = 0; count < 1000; count += 1) {
+    for (let count = 0; count < 500; count += 1) {
       const input = new Set();
       const subSequences = Math.floor(Math.random() * 10);
       for (let subSeq = 0; subSeq < subSequences; subSeq += 1) {
