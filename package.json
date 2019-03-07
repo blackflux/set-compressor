@@ -18,7 +18,16 @@
     "type": "git",
     "url": "https://github.com/blackflux/sequence-compressor.git"
   },
-  "keywords": [],
+  "keywords": [
+    "sequence",
+    "array",
+    "compression",
+    "representation",
+    "gzip",
+    "number",
+    "integer",
+    "unique"
+  ],
   "author": "Lukas Siemon",
   "license": "MIT",
   "bugs": {
