@@ -16,15 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/simlu/sequence-compressor.git"
+    "url": "https://github.com/blackflux/sequence-compressor.git"
   },
   "keywords": [],
   "author": "Lukas Siemon",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simlu/sequence-compressor/issues"
+    "url": "https://github.com/blackflux/sequence-compressor/issues"
   },
-  "homepage": "https://github.com/simlu/sequence-compressor#readme",
+  "homepage": "https://github.com/blackflux/sequence-compressor#readme",
   "dependencies": {
     "chai": "4.2.0",
     "js-gardener": "1.37.10"
