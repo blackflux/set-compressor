@@ -35,9 +35,11 @@ set.decompress('/wc=');
 
 Further examples can be found below.
 
-## Options
+## Compressor
 
-### gzip
+### Options
+
+#### gzip
 
 Type: `constants.GZIP_MODE`<br>
 Default: `AUTO`
@@ -45,22 +47,30 @@ Default: `AUTO`
 Controls how to use gzip: `AUTO`, `FORCE` and `NEVER`, 
 where the default only uses compression if it improves the result size.
 
-### gzipLevel
+#### gzipLevel
 
 Type: `zlib.constants`<br>
 Default: `Z_BEST_COMPRESSION`
 
 Can be set to control the gzip compression level.
 
-## Functions
+### Functions
 
-### compress
+#### compress
 
 Takes Array of unique, positive Integers as input and returns compressed string.
 
-### decompress
+#### decompress
 
 Takes compressed string as input and returns Array of unique, positive, sorted Integers.
+
+## Constants
+
+### GZIP_MODE
+
+Values `AUTO`, `NEVER`, `FORCE`
+
+Defines gzip mode used internally.
 
 ## Examples
 
