@@ -19,19 +19,21 @@ Compress and decompress ascending Sequences of non-negative Integers.
 
 Consider an sequential array with gaps of the form 
 `[0, 1, 2, ..., 498, 499, 500, 700, 701, 702, ..., 998, 999, 1000]`. 
-We want to store this efficiently. This is where this utility comes in.
+We want to store this efficiently. This is where this utility comes in handy.
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
 const seq = require('sequence-compressor')({/* options */});
 
 seq.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-// => H4sIAAAAAAACA2NkhAMA6+wzGQsAAAA=
+// => /wc=
 
-seq.decompress('H4sIAAAAAAACA2NkhAMA6+wzGQsAAAA=');
+seq.decompress('/wc=');
 // => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 ```
+
+Further examples can be found below.
 
 ## Options
 
@@ -57,6 +59,12 @@ Takes compressed string as input and returns Array of unique, positive, sorted I
 <!-- eslint-disable import/no-unresolved -->
 ```js
 const seq = require('sequence-compressor')({/* options */});
+
+seq.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
+// => "H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA="
+
+seq.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
+// => [0, 1, 2, ..., 9998, 9999, 10000]
 
 seq.decompress(seq.compress([2, 2, 5, 1, 0]));
 // => [0, 1, 2, 5]
