@@ -23,7 +23,7 @@ We want to store this efficiently. This is where this utility comes in handy.
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
-const set = require('set-compressor')({/* options */});
+const set = require('set-compressor').Compressor({/* options */});
 
 set.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 // => /wc=
@@ -39,8 +39,16 @@ Further examples can be found below.
 
 ### gzipLevel
 
+Type: `constants.GZIP_MODE`<br>
+Default: `AUTO`
+
+Can control how to use gzip: `AUTO`, `FORCE` and `NEVER`, where the default will only use compression
+if the result is smaller than it would be without compression.
+
+### gzipLevel
+
 Type: `zlib.constants`<br>
-Default: `9`
+Default: `Z_BEST_COMPRESSION`
 
 Can be set to control the gzip compression level.
 
@@ -58,7 +66,7 @@ Takes compressed string as input and returns Array of unique, positive, sorted I
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
-const set = require('set-compressor')({/* options */});
+const set = require('set-compressor').Compressor({/* options */});
 
 set.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
 // => "H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA="
