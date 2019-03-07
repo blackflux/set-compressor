@@ -1,14 +1,19 @@
 const expect = require('chai').expect;
-const seq = require('../src/index')();
+const set = require('../src/index')();
 
 describe('Testing Functionality', () => {
   const validate = (input) => {
-    expect(input).to.deep.equal(seq.decompress(seq.compress(input)));
+    const result = set.decompress(set.compress(input));
+    expect(input).to.deep.equal(Array.isArray(input) ? result : new Set(result));
   };
 
-  it('Testing Basic', () => {
+  it('Testing Basic Array', () => {
     validate([1, 2, 3, 160, 235, 657, 5634]);
     validate(Array.from(Array(10000).keys()));
+  });
+
+  it('Testing Basic Set', () => {
+    validate(new Set([1, 2, 3, 160, 235, 657, 5634]));
   });
 
   it('Testing Empty Array', () => {
@@ -16,34 +21,34 @@ describe('Testing Functionality', () => {
   });
 
   it('Testing Compression', () => {
-    expect(seq.compress(Array.from(Array(10000).keys())))
+    expect(set.compress(Array.from(Array(10000).keys())))
       .to.deep.equal('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
-    expect(seq.compress([10000]))
+    expect(set.compress([10000]))
       .to.deep.equal('H4sIAAAAAAACA2NgGAWjYBSMguEKGAGZHN5k4wQAgA==');
   });
 
   it('Testing Readme Base Example', () => {
-    expect(seq.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+    expect(set.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
       .to.deep.equal('/wc=');
-    expect(seq.decompress('/wc='))
+    expect(set.decompress('/wc='))
       .to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
-    expect(seq.compress(Array.from(Array(10000).keys())))
+    expect(set.compress(Array.from(Array(10000).keys())))
       .to.deep.equal('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
-    expect(seq.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA='))
+    expect(set.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA='))
       .to.deep.equal(Array.from(Array(10000).keys()));
   });
 
   it('Testing Readme Examples', () => {
-    expect(seq.decompress(seq.compress([2, 2, 5, 1, 0])))
+    expect(set.decompress(set.compress([2, 2, 5, 1, 0])))
       .to.deep.equal([0, 1, 2, 5]);
   });
 
   it('Batch Testing Correctness', () => {
     for (let count = 0; count < 500; count += 1) {
       const input = new Set();
-      const subSequences = Math.floor(Math.random() * 10);
-      for (let subSeq = 0; subSeq < subSequences; subSeq += 1) {
+      const subSetsCount = Math.floor(Math.random() * 10);
+      for (let subSet = 0; subSet < subSetsCount; subSet += 1) {
         const n1 = Math.floor(Math.random() * 10000);
         const n2 = Math.floor(Math.random() * 10000);
         for (let s = Math.min(n1, n2); s < Math.max(n1, n2); s += 1) {
