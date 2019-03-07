@@ -39,6 +39,8 @@ Further examples can be found below.
 
 ### Options
 
+The following options can be passed in when creating a Compressor.
+
 #### gzip
 
 Type: `constants.GZIP_MODE`<br>
@@ -55,6 +57,8 @@ Default: `Z_BEST_COMPRESSION`
 Can be set to control the gzip compression level.
 
 ### Functions
+
+The following functions are available on the created Compressor.
 
 #### compress
 
