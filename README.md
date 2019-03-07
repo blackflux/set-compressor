@@ -54,7 +54,10 @@ Takes compressed string as input and returns Array of unique, positive, sorted I
 
 ## Examples
 
+<!-- eslint-disable import/no-unresolved -->
 ```js
+const seq = require('sequence-compressor')({/* options */});
+
 seq.decompress(seq.compress([2, 2, 5, 1, 0]));
 // => [0, 1, 2, 5]
 ```
