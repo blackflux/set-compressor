@@ -37,7 +37,7 @@ Further examples can be found below.
 
 ## Options
 
-### gzipLevel
+### gzip
 
 Type: `constants.GZIP_MODE`<br>
 Default: `AUTO`
