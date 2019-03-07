@@ -1,4 +1,5 @@
 const expect = require('chai').expect;
+const buffer = require('buffer');
 const SetCompressor = require('../src/index');
 
 describe('Testing Functionality', () => {
@@ -20,6 +21,10 @@ describe('Testing Functionality', () => {
 
   it('Testing Empty Array', () => {
     validate([]);
+  });
+
+  it('Test Large Array Size', () => {
+    validate(Array.from(Array(1000000).keys()));
   });
 
   describe('Testing Gzip Modes', () => {

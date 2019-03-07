@@ -92,10 +92,12 @@ compressor.decompress(compressor.compress([2, 2, 5, 1, 0]));
 // => [0, 1, 2, 5]
 ```
 
-## Gotchas
+## Gotchas and Lmitations
 
 This library operates with Arrays for performance reasons. 
 Any iterable containing non-negative integers can be provided as input,
 but re-inflated result is always an Array.
 
 Note that the re-inflated result is always deduplicated and ordered.
+
+This library is not meant to be used with huge numbers. 
