@@ -1,7 +1,9 @@
 const expect = require('chai').expect;
-const set = require('../src/index')();
+const SetCompressor = require('../src/index');
 
 describe('Testing Functionality', () => {
+  const set = SetCompressor.Compressor();
+
   const validate = (input) => {
     const result = set.decompress(set.compress(input));
     expect(input).to.deep.equal(Array.isArray(input) ? result : new Set(result));
@@ -18,6 +20,39 @@ describe('Testing Functionality', () => {
 
   it('Testing Empty Array', () => {
     validate([]);
+  });
+
+  describe('Testing Gzip Modes', () => {
+    const setAuto = SetCompressor.Compressor({
+      gzip: SetCompressor.constants.GZIP_MODE.AUTO
+    });
+    const setForce = SetCompressor.Compressor({
+      gzip: SetCompressor.constants.GZIP_MODE.FORCE
+    });
+    const setNever = SetCompressor.Compressor({
+      gzip: SetCompressor.constants.GZIP_MODE.NEVER
+    });
+
+    it('Testing Empty', () => {
+      const input = [];
+      expect(setAuto.compress(input)).to.equal('AA==');
+      expect(setForce.compress(input)).to.equal('H4sIAAAAAAACA2MAAI3vAtIBAACA');
+      expect(setNever.compress(input)).to.equal('AA==');
+    });
+
+    it('Testing Small', () => {
+      const input = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+      expect(setAuto.compress(input)).to.equal('/wc=');
+      expect(setForce.compress(input)).to.equal('H4sIAAAAAAACA/vPDgAueplMAgAAgA==');
+      expect(setNever.compress(input)).to.equal('/wc=');
+    });
+
+    it('Testing Medium', () => {
+      const input = Array.from(Array(200).keys());
+      expect(setAuto.compress(input)).to.equal('H4sIAAAAAAACA/v/HwdgAADNM+XfGgAAgA==');
+      expect(setForce.compress(input)).to.equal('H4sIAAAAAAACA/v/HwdgAADNM+XfGgAAgA==');
+      expect(setNever.compress(input)).to.equal('/////////////////////////////////wA=');
+    });
   });
 
   it('Testing Compression', () => {

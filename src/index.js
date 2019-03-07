@@ -1,31 +1,63 @@
 /* eslint-disable no-bitwise */
 const zlib = require('zlib');
 const assert = require('assert');
+const constants = require('./constants');
 
 
-module.exports = (args) => {
+module.exports.constants = constants;
+
+module.exports.Compressor = (args) => {
   const options = Object.assign({
+    gzip: constants.GZIP_MODE.AUTO,
     gzipLevel: zlib.constants.Z_BEST_COMPRESSION
   }, args);
+  assert(Object.keys(options).length === 2);
+  assert(Object.keys(constants.GZIP_MODE).includes(options.gzip));
+  assert([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(options.gzipLevel));
 
   return {
-    compress: (array) => {
-      const uncompressed = Buffer.alloc(Math.ceil((Math.max(0, ...array) + 2) / 8));
-      array.forEach((entry) => {
+    compress: (iterable) => {
+      assert(
+        iterable !== null && typeof iterable[Symbol.iterator] === 'function',
+        'Input Not Iterable'
+      );
+
+      const uncompressed = Buffer.alloc(Math.ceil((Math.max(0, ...iterable) + 2) / 8));
+      iterable.forEach((entry) => {
+        assert(
+          Number.isInteger(entry) && entry >= 0,
+          'Input Not Non-Negative Integer'
+        );
         uncompressed[Math.floor(entry / 8)] |= (1 << (entry % 8));
       });
-      const compressed = zlib.gzipSync(uncompressed, { level: options.gzipLevel });
+      if (options.gzip === constants.GZIP_MODE.NEVER) {
+        return uncompressed.toString('base64');
+      }
 
+      const compressed = zlib.gzipSync(uncompressed, { level: options.gzipLevel });
       // Last byte of uncompressed and compressed is zero
       // => uncompressed: by definition
       // => compressed: contains ISIZE, so is zero unless input gets HUGE (several GB)
-      assert((uncompressed[uncompressed.length - 1] & (1 << 7)) === 0);
-      assert((compressed[compressed.length - 1] & (1 << 7)) === 0);
-
+      assert(
+        (uncompressed[uncompressed.length - 1] & (1 << 7)) === 0,
+        'Internal Error (Uncompressed)'
+      );
+      assert(
+        (compressed[compressed.length - 1] & (1 << 7)) === 0,
+        'Internal Error (Compressed)'
+      );
       compressed[compressed.length - 1] |= (1 << 7);
-      return (compressed.length < uncompressed.length ? compressed : uncompressed).toString('base64');
+      if (options.gzip === constants.GZIP_MODE.AUTO) {
+        return (compressed.length < uncompressed.length ? compressed : uncompressed).toString('base64');
+      }
+      // constants.GZIP_MODE.FORCE
+      return compressed.toString('base64');
     },
     decompress: (string) => {
+      assert(
+        typeof string === 'string',
+        'Input Not String'
+      );
       const decoded = Buffer.from(string, 'base64');
       let uncompressed;
       if ((decoded[decoded.length - 1] & (1 << 7)) !== 0) {
