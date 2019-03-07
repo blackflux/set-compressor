@@ -80,7 +80,8 @@ set.decompress(set.compress([2, 2, 5, 1, 0]));
 
 ## Gotchas
 
-Package operates with Arrays for performance reasons. 
-However any iterable containing non-negative integers can be provided as input.
+This library operates with Arrays for performance reasons. 
+Any iterable containing non-negative integers can be provided as input,
+but re-inflated result is always an array.
 
-Not that when you provide an Array as an input, the re-inflated result is be deduplicated and ordered.
+Note that the re-inflated result is always deduplicated and ordered.
