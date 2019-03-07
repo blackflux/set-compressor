@@ -23,12 +23,12 @@ We want to store this efficiently. This is where this utility comes in handy.
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
-const set = require('set-compressor').Compressor({/* options */});
+const compressor = require('set-compressor').Compressor({/* options */});
 
-set.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+compressor.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 // => /wc=
 
-set.decompress('/wc=');
+compressor.decompress('/wc=');
 // => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 ```
@@ -80,15 +80,15 @@ Defines gzip mode used internally.
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
-const set = require('set-compressor').Compressor({/* options */});
+const compressor = require('set-compressor').Compressor({/* options */});
 
-set.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
+compressor.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
 // => "H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA="
 
-set.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
+compressor.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
 // => [0, 1, 2, ..., 9998, 9999, 10000]
 
-set.decompress(set.compress([2, 2, 5, 1, 0]));
+compressor.decompress(compressor.compress([2, 2, 5, 1, 0]));
 // => [0, 1, 2, 5]
 ```
 
