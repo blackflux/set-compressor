@@ -8,16 +8,20 @@ module.exports = (args) => {
 
   return {
     compress: (array) => {
-      const buffer = Buffer.alloc(Math.max(...array) + 1);
+      const uncompressed = Buffer.alloc(Math.max(0, ...array) + 1);
       array.forEach((entry) => {
-        buffer[entry] = 1;
+        uncompressed[entry] = 1;
       });
-      const compressed = zlib.gzipSync(buffer, { level: options.gzipLevel });
-      return compressed.toString('base64');
+      const compressed = zlib.gzipSync(uncompressed, { level: options.gzipLevel });
+      return (
+        compressed.length < uncompressed.length
+          ? Buffer.concat([Buffer.from([1]), compressed])
+          : Buffer.concat([Buffer.from([0]), uncompressed])
+      ).toString('base64');
     },
     decompress: (string) => {
       const decoded = Buffer.from(string, 'base64');
-      const uncompressed = zlib.gunzipSync(decoded);
+      const uncompressed = decoded[0] !== 0 ? zlib.gunzipSync(decoded.slice(1)) : decoded.slice(1);
       const array = [];
       uncompressed.forEach((e, idx) => {
         if (e === 1) {
