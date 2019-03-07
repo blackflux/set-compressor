@@ -18,14 +18,19 @@ module.exports.Compressor = (args) => {
         iterable !== null && typeof iterable[Symbol.iterator] === 'function',
         'Input Not Iterable'
       );
-      const bitLength = iterable.reduce((p, c) => Math.max(p, c), 0);
-      const byteLength = Math.ceil((bitLength + 2) / 8);
-      const uncompressed = Buffer.alloc(byteLength);
+      let bitLength = 0;
       iterable.forEach((entry) => {
         assert(
           Number.isInteger(entry) && entry >= 0,
           'Input Not Non-Negative Integer'
         );
+        if (bitLength < entry) {
+          bitLength = entry;
+        }
+      });
+      const byteLength = Math.ceil((bitLength + 2) / 8);
+      const uncompressed = Buffer.alloc(byteLength);
+      iterable.forEach((entry) => {
         uncompressed[Math.floor(entry / 8)] |= (1 << (entry % 8));
       });
       if (options.gzip === constants.GZIP_MODE.NEVER) {
