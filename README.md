@@ -60,11 +60,11 @@ Can be set to control the gzip compression level.
 
 The following functions are available on the created Compressor.
 
-#### compress
+#### compress(\<iterable\>)
 
 Takes Iterable of non-negative Integers as input and returns compressed string.
 
-#### decompress
+#### decompress(\<string\>)
 
 Takes compressed string as input and returns Array of unique, non-negative, sorted Integers.
 
