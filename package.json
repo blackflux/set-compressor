@@ -1,0 +1,87 @@
+{
+  "name": "sequence-compressor",
+  "version": "0.0.0-development",
+  "description": "Compress and decompress ascending Sequences of non-negative Integers.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "npm run clean && npm run gardener && npm run test-simple",
+    "clean": "rm -rf lib",
+    "build": "npx babel src --out-dir lib --source-maps inline --copy-files --include-dotfiles",
+    "clean-build": "npm run clean && npm run build",
+    "build-artifact": "npm run clean-build && tar -zxvf $(npm pack) && rm *-0.0.0-development.tgz && cd package && tar -zcvf ../release.tar.gz . && cd .. && rm -rf package",
+    "test-simple": "nyc mocha \"./test/**/*.spec.js\"",
+    "coveralls": "node ./node_modules/coveralls/bin/coveralls.js < ./coverage/lcov.info",
+    "semantic-release": "npm run build-artifact && npm run clean-build && npx semantic-release",
+    "gardener": "node gardener"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simlu/sequence-compressor.git"
+  },
+  "keywords": [],
+  "author": "Lukas Siemon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simlu/sequence-compressor/issues"
+  },
+  "homepage": "https://github.com/simlu/sequence-compressor#readme",
+  "dependencies": {
+    "chai": "4.2.0",
+    "js-gardener": "1.37.10"
+  },
+  "nyc": {
+    "tempDir": "./coverage/.nyc_output",
+    "report-dir": "./coverage",
+    "check-coverage": true,
+    "per-file": false,
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100,
+    "include": [
+      "**/*.js"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ],
+    "require": [
+      "@babel/register"
+    ],
+    "extension": [],
+    "cache": true,
+    "all": true,
+    "babel": true,
+    "exclude": [
+      "gardener.js",
+      "node_modules/*",
+      "coverage/*",
+      "flow-typed/*",
+      "lib/*"
+    ]
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/blackflux/sequence-compressor/blob/master/LICENSE"
+    }
+  ],
+  "devDependencies": {
+    "@babel/cli": "7.2.3",
+    "@babel/core": "7.3.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.3.4",
+    "@babel/plugin-transform-flow-comments": "7.2.0",
+    "@babel/preset-flow": "7.0.0",
+    "@babel/register": "7.0.0",
+    "babel-eslint": "10.0.1",
+    "coveralls": "3.0.3",
+    "nyc": "13.3.0",
+    "semantic-release": "15.13.3"
+  },
+  "engines": {
+    "node": ">= 8.10"
+  },
+  "files": [
+    "lib"
+  ]
+}
