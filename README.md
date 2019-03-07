@@ -58,13 +58,13 @@ Takes compressed string as input and returns Array of unique, positive, sorted I
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
+const seq = require('sequence-compressor')({/* options */});
+
 seq.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
 // => "H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA="
 
 seq.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
 // => [0, 1, 2, ..., 9998, 9999, 10000]
-
-const seq = require('sequence-compressor')({/* options */});
 
 seq.decompress(seq.compress([2, 2, 5, 1, 0]));
 // => [0, 1, 2, 5]
