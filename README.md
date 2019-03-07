@@ -42,8 +42,8 @@ Further examples can be found below.
 Type: `constants.GZIP_MODE`<br>
 Default: `AUTO`
 
-Controls how to use gzip: `AUTO`, `FORCE` and `NEVER`, where the default will only use compression
-if the result is smaller than it would be without compression.
+Controls how to use gzip: `AUTO`, `FORCE` and `NEVER`, 
+where the default only uses compression if it improves the result size.
 
 ### gzipLevel
 
