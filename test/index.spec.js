@@ -22,6 +22,10 @@ describe('Testing Functionality', () => {
     validate([]);
   });
 
+  it('Test Large Array Size', () => {
+    validate(Array.from(Array(1000000).keys()));
+  });
+
   describe('Testing Gzip Modes', () => {
     const compressorAuto = SetCompressor.Compressor({
       gzip: SetCompressor.constants.GZIP_MODE.AUTO
