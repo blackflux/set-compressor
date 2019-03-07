@@ -7,23 +7,24 @@ module.exports = (args) => {
   }, args);
 
   return {
-    compress: input => zlib
-      .gzipSync(input
-        .reduce((p, c) => {
-          // eslint-disable-next-line no-param-reassign
-          p[c] = 1;
-          return p;
-        }, Buffer.alloc(Math.max(...input) + 1)), { level: options.gzipLevel })
-      .toString('base64'),
-    decompress: input => zlib
-      .gunzipSync(Buffer.from(input, 'base64')).reduce(
-        (p, c, idx) => {
-          if (c === 1) {
-            p.push(idx);
-          }
-          return p;
-        },
-        []
-      )
+    compress: (array) => {
+      const buffer = Buffer.alloc(Math.max(...array) + 1);
+      array.forEach((entry) => {
+        buffer[entry] = 1;
+      });
+      const compressed = zlib.gzipSync(buffer, { level: options.gzipLevel });
+      return compressed.toString('base64');
+    },
+    decompress: (string) => {
+      const decoded = Buffer.from(string, 'base64');
+      const uncompressed = zlib.gunzipSync(decoded);
+      const array = [];
+      uncompressed.forEach((e, idx) => {
+        if (e === 1) {
+          array.push(idx);
+        }
+      });
+      return array;
+    }
   };
 };
