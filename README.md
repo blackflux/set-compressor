@@ -62,11 +62,11 @@ The following functions are available on the created Compressor.
 
 #### compress
 
-Takes Array of unique, positive Integers as input and returns compressed string.
+Takes Iterable of non-negative Integers as input and returns compressed string.
 
 #### decompress
 
-Takes compressed string as input and returns Array of unique, positive, sorted Integers.
+Takes compressed string as input and returns Array of unique, non-negative, sorted Integers.
 
 ## Constants
 
@@ -96,6 +96,6 @@ set.decompress(set.compress([2, 2, 5, 1, 0]));
 
 This library operates with Arrays for performance reasons. 
 Any iterable containing non-negative integers can be provided as input,
-but re-inflated result is always an array.
+but re-inflated result is always an Array.
 
 Note that the re-inflated result is always deduplicated and ordered.
