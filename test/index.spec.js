@@ -32,12 +32,17 @@ describe('Testing Functionality', () => {
     const setNever = SetCompressor.Compressor({
       gzip: SetCompressor.constants.GZIP_MODE.NEVER
     });
+    const setForceButNoCompression = SetCompressor.Compressor({
+      gzip: SetCompressor.constants.GZIP_MODE.FORCE,
+      gzipLevel: 0
+    });
 
     it('Testing Empty', () => {
       const input = [];
       expect(setAuto.compress(input)).to.equal('AA==');
       expect(setForce.compress(input)).to.equal('H4sIAAAAAAACA2MAAI3vAtIBAACA');
       expect(setNever.compress(input)).to.equal('AA==');
+      expect(setForceButNoCompression.compress(input)).to.equal('H4sIAAAAAAAEAwEBAP7/AI3vAtIBAACA');
     });
 
     it('Testing Small', () => {
@@ -45,6 +50,7 @@ describe('Testing Functionality', () => {
       expect(setAuto.compress(input)).to.equal('/wc=');
       expect(setForce.compress(input)).to.equal('H4sIAAAAAAACA/vPDgAueplMAgAAgA==');
       expect(setNever.compress(input)).to.equal('/wc=');
+      expect(setForceButNoCompression.compress(input)).to.equal('H4sIAAAAAAAEAwECAP3//wcueplMAgAAgA==');
     });
 
     it('Testing Medium', () => {
@@ -52,6 +58,8 @@ describe('Testing Functionality', () => {
       expect(setAuto.compress(input)).to.equal('H4sIAAAAAAACA/v/HwdgAADNM+XfGgAAgA==');
       expect(setForce.compress(input)).to.equal('H4sIAAAAAAACA/v/HwdgAADNM+XfGgAAgA==');
       expect(setNever.compress(input)).to.equal('/////////////////////////////////wA=');
+      expect(setForceButNoCompression.compress(input))
+        .to.equal('H4sIAAAAAAAEAwEaAOX//////////////////////////////////wDNM+XfGgAAgA==');
     });
   });
 
