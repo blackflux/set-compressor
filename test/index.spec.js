@@ -27,6 +27,11 @@ describe('Testing Functionality', () => {
       .to.deep.equal('/wc=');
     expect(seq.decompress('/wc='))
       .to.deep.equal([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+
+    expect(seq.compress(Array.from(Array(10000).keys())))
+      .to.deep.equal('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
+    expect(seq.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA='))
+      .to.deep.equal(Array.from(Array(10000).keys()));
   });
 
   it('Testing Readme Examples', () => {
