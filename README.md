@@ -100,4 +100,4 @@ but re-inflated result is always an Array.
 
 Note that the re-inflated result is always deduplicated and ordered.
 
-This library is not meant to be used with huge numbers. 
+This library is not meant to be used and wont work well with huge Integers. 

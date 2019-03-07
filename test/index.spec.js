@@ -1,5 +1,4 @@
 const expect = require('chai').expect;
-const buffer = require('buffer');
 const SetCompressor = require('../src/index');
 
 describe('Testing Functionality', () => {
