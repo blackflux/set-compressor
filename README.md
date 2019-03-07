@@ -1,19 +1,19 @@
-# Sequence-Compressor
+# Set-Compressor
 
-[![Build Status](https://circleci.com/gh/blackflux/sequence-compressor.png?style=shield)](https://circleci.com/gh/blackflux/sequence-compressor)
-[![Test Coverage](https://img.shields.io/coveralls/blackflux/sequence-compressor/master.svg)](https://coveralls.io/github/blackflux/sequence-compressor?branch=master)
-[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=blackflux/sequence-compressor)](https://dependabot.com)
-[![Dependencies](https://david-dm.org/blackflux/sequence-compressor/status.svg)](https://david-dm.org/blackflux/sequence-compressor)
-[![NPM](https://img.shields.io/npm/v/sequence-compressor.svg)](https://www.npmjs.com/package/sequence-compressor)
-[![Downloads](https://img.shields.io/npm/dt/sequence-compressor.svg)](https://www.npmjs.com/package/sequence-compressor)
+[![Build Status](https://circleci.com/gh/blackflux/set-compressor.png?style=shield)](https://circleci.com/gh/blackflux/set-compressor)
+[![Test Coverage](https://img.shields.io/coveralls/blackflux/set-compressor/master.svg)](https://coveralls.io/github/blackflux/set-compressor?branch=master)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=blackflux/set-compressor)](https://dependabot.com)
+[![Dependencies](https://david-dm.org/blackflux/set-compressor/status.svg)](https://david-dm.org/blackflux/set-compressor)
+[![NPM](https://img.shields.io/npm/v/set-compressor.svg)](https://www.npmjs.com/package/set-compressor)
+[![Downloads](https://img.shields.io/npm/dt/set-compressor.svg)](https://www.npmjs.com/package/set-compressor)
 [![Semantic-Release](https://github.com/blackflux/js-gardener/blob/master/assets/icons/semver.svg)](https://github.com/semantic-release/semantic-release)
 [![Gardener](https://github.com/blackflux/js-gardener/blob/master/assets/badge.svg)](https://github.com/blackflux/js-gardener)
 
-Compress and decompress ascending Sequences of non-negative Integers.
+Compress and decompress Sets of non-negative Integers.
 
 ## Getting Started
 
-    $ npm install --save sequence-compressor
+    $ npm install --save set-compressor
 
 ## Usage
 
@@ -23,12 +23,12 @@ We want to store this efficiently. This is where this utility comes in handy.
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
-const seq = require('sequence-compressor')({/* options */});
+const set = require('set-compressor')({/* options */});
 
-seq.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+set.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 // => /wc=
 
-seq.decompress('/wc=');
+set.decompress('/wc=');
 // => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 ```
@@ -58,14 +58,14 @@ Takes compressed string as input and returns Array of unique, positive, sorted I
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
-const seq = require('sequence-compressor')({/* options */});
+const set = require('set-compressor')({/* options */});
 
-seq.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
+set.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
 // => "H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA="
 
-seq.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
+set.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
 // => [0, 1, 2, ..., 9998, 9999, 10000]
 
-seq.decompress(seq.compress([2, 2, 5, 1, 0]));
+set.decompress(set.compress([2, 2, 5, 1, 0]));
 // => [0, 1, 2, 5]
 ```

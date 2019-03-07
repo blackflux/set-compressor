@@ -1,7 +1,7 @@
 {
-  "name": "sequence-compressor",
+  "name": "set-compressor",
   "version": "0.0.0-development",
-  "description": "Compress and decompress ascending Sequences of non-negative Integers.",
+  "description": "Compress and decompress Sets of non-negative Integers.",
   "main": "lib/index.js",
   "scripts": {
     "test": "npm run clean && npm run gardener && npm run test-simple",
@@ -16,9 +16,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/blackflux/sequence-compressor.git"
+    "url": "https://github.com/blackflux/set-compressor.git"
   },
   "keywords": [
+    "set",
     "sequence",
     "array",
     "compression",
@@ -31,9 +32,9 @@
   "author": "Lukas Siemon",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/blackflux/sequence-compressor/issues"
+    "url": "https://github.com/blackflux/set-compressor/issues"
   },
-  "homepage": "https://github.com/blackflux/sequence-compressor#readme",
+  "homepage": "https://github.com/blackflux/set-compressor#readme",
   "dependencies": {
     "chai": "4.2.0",
     "js-gardener": "1.37.10"
@@ -72,7 +73,7 @@
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/blackflux/sequence-compressor/blob/master/LICENSE"
+      "url": "https://github.com/blackflux/set-compressor/blob/master/LICENSE"
     }
   ],
   "devDependencies": {
