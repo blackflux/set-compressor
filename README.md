@@ -69,3 +69,9 @@ set.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
 set.decompress(set.compress([2, 2, 5, 1, 0]));
 // => [0, 1, 2, 5]
 ```
+
+## Gotchas
+
+Package operates with Arrays for performance reasons. However Sets can be provided as input.
+
+Not that when you provide an Array as an input, the re-inflated result is be deduplicated and ordered.
