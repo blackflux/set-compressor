@@ -23,49 +23,79 @@ We want to store this efficiently. This is where this utility comes in handy.
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
-const set = require('set-compressor')({/* options */});
+const compressor = require('set-compressor').Compressor({/* options */});
 
-set.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+compressor.compress([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 // => /wc=
 
-set.decompress('/wc=');
+compressor.decompress('/wc=');
 // => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 ```
 
 Further examples can be found below.
 
-## Options
+## Compressor
 
-### gzipLevel
+### Options
+
+The following options can be passed in when creating a Compressor.
+
+#### gzip
+
+Type: `constants.GZIP_MODE`<br>
+Default: `AUTO`
+
+Controls how to use gzip: `AUTO`, `FORCE` and `NEVER`, 
+where the default only uses compression if it improves the result size.
+
+#### gzipLevel
 
 Type: `zlib.constants`<br>
-Default: `9`
+Default: `Z_BEST_COMPRESSION`
 
 Can be set to control the gzip compression level.
 
-## Functions
+### Functions
 
-### compress
+The following functions are available on the created Compressor.
 
-Takes Array of unique, positive Integers as input and returns compressed string.
+#### compress(\<iterable\>)
 
-### decompress
+Takes Iterable of non-negative Integers as input and returns compressed string.
 
-Takes compressed string as input and returns Array of unique, positive, sorted Integers.
+#### decompress(\<string\>)
+
+Takes compressed string as input and returns Array of unique, non-negative, sorted Integers.
+
+## Constants
+
+### GZIP_MODE
+
+Values `AUTO`, `NEVER`, `FORCE`
+
+Defines gzip mode used internally.
 
 ## Examples
 
 <!-- eslint-disable import/no-unresolved -->
 ```js
-const set = require('set-compressor')({/* options */});
+const compressor = require('set-compressor').Compressor({/* options */});
 
-set.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
+compressor.compress([0, 1, 2, /* ..., */ 9998, 9999, 10000]);
 // => "H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA="
 
-set.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
+compressor.decompress('H4sIAAAAAAACA/v/fxSMglEwCoYrYAAAhHk44+MEAIA=');
 // => [0, 1, 2, ..., 9998, 9999, 10000]
 
-set.decompress(set.compress([2, 2, 5, 1, 0]));
+compressor.decompress(compressor.compress([2, 2, 5, 1, 0]));
 // => [0, 1, 2, 5]
 ```
+
+## Gotchas
+
+This library operates with Arrays for performance reasons. 
+Any iterable containing non-negative integers can be provided as input,
+but re-inflated result is always an Array.
+
+Note that the re-inflated result is always deduplicated and ordered.
