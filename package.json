@@ -35,10 +35,7 @@
     "url": "https://github.com/blackflux/set-compressor/issues"
   },
   "homepage": "https://github.com/blackflux/set-compressor#readme",
-  "dependencies": {
-    "chai": "4.2.0",
-    "js-gardener": "1.37.10"
-  },
+  "dependencies": {},
   "nyc": {
     "tempDir": "./coverage/.nyc_output",
     "report-dir": "./coverage",
@@ -86,7 +83,9 @@
     "babel-eslint": "10.0.1",
     "coveralls": "3.0.3",
     "nyc": "13.3.0",
-    "semantic-release": "15.13.3"
+    "semantic-release": "15.13.3",
+    "chai": "4.2.0",
+    "js-gardener": "1.37.10"
   },
   "engines": {
     "node": ">= 8.10"
