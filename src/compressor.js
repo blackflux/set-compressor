@@ -4,10 +4,11 @@ const assert = require('assert');
 const constants = require('./constants');
 
 module.exports.Compressor = (args) => {
-  const options = Object.assign({
+  const options = {
     gzip: constants.GZIP_MODE.AUTO,
-    gzipLevel: zlib.constants.Z_BEST_COMPRESSION
-  }, args);
+    gzipLevel: zlib.constants.Z_BEST_COMPRESSION,
+    ...args
+  };
   assert(Object.keys(options).length === 2);
   assert(Object.keys(constants.GZIP_MODE).includes(options.gzip));
   assert([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(options.gzipLevel));
