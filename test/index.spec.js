@@ -1,13 +1,18 @@
 const expect = require('chai').expect;
+const { describe } = require('node-tdd');
 const SetCompressor = require('../src/index');
 
-describe('Testing Functionality', () => {
-  const compressor = SetCompressor.Compressor();
+describe('Testing Functionality', { timeout: 10000 }, () => {
+  let compressor;
+  let validate;
 
-  const validate = (input) => {
-    const result = compressor.decompress(compressor.compress(input));
-    expect(input).to.deep.equal(Array.isArray(input) ? result : new Set(result));
-  };
+  before(() => {
+    compressor = SetCompressor.Compressor();
+    validate = (input) => {
+      const result = compressor.decompress(compressor.compress(input));
+      expect(input).to.deep.equal(Array.isArray(input) ? result : new Set(result));
+    };
+  });
 
   it('Testing Basic Array', () => {
     validate([1, 2, 3, 160, 235, 657, 5634]);
@@ -37,21 +42,28 @@ describe('Testing Functionality', () => {
       }
       validate(input);
     }
-  }).timeout(10000);
+  });
 
   describe('Testing Gzip Modes', () => {
-    const compressorAuto = SetCompressor.Compressor({
-      gzip: SetCompressor.constants.GZIP_MODE.AUTO
-    });
-    const compressorForce = SetCompressor.Compressor({
-      gzip: SetCompressor.constants.GZIP_MODE.FORCE
-    });
-    const compressorNever = SetCompressor.Compressor({
-      gzip: SetCompressor.constants.GZIP_MODE.NEVER
-    });
-    const compressororceButNoCompression = SetCompressor.Compressor({
-      gzip: SetCompressor.constants.GZIP_MODE.FORCE,
-      gzipLevel: 0
+    let compressorAuto;
+    let compressorForce;
+    let compressorNever;
+    let compressorForceButNoCompression;
+
+    before(() => {
+      compressorAuto = SetCompressor.Compressor({
+        gzip: SetCompressor.constants.GZIP_MODE.AUTO
+      });
+      compressorForce = SetCompressor.Compressor({
+        gzip: SetCompressor.constants.GZIP_MODE.FORCE
+      });
+      compressorNever = SetCompressor.Compressor({
+        gzip: SetCompressor.constants.GZIP_MODE.NEVER
+      });
+      compressorForceButNoCompression = SetCompressor.Compressor({
+        gzip: SetCompressor.constants.GZIP_MODE.FORCE,
+        gzipLevel: 0
+      });
     });
 
     it('Testing Empty', () => {
@@ -59,7 +71,7 @@ describe('Testing Functionality', () => {
       expect(compressorAuto.compress(input)).to.equal('AA==');
       expect(compressorForce.compress(input)).to.equal('H4sIAAAAAAACA2MAAI3vAtIBAACA');
       expect(compressorNever.compress(input)).to.equal('AA==');
-      expect(compressororceButNoCompression.compress(input)).to.equal('H4sIAAAAAAAEAwEBAP7/AI3vAtIBAACA');
+      expect(compressorForceButNoCompression.compress(input)).to.equal('H4sIAAAAAAAEAwEBAP7/AI3vAtIBAACA');
     });
 
     it('Testing Small', () => {
@@ -67,7 +79,7 @@ describe('Testing Functionality', () => {
       expect(compressorAuto.compress(input)).to.equal('/wc=');
       expect(compressorForce.compress(input)).to.equal('H4sIAAAAAAACA/vPDgAueplMAgAAgA==');
       expect(compressorNever.compress(input)).to.equal('/wc=');
-      expect(compressororceButNoCompression.compress(input)).to.equal('H4sIAAAAAAAEAwECAP3//wcueplMAgAAgA==');
+      expect(compressorForceButNoCompression.compress(input)).to.equal('H4sIAAAAAAAEAwECAP3//wcueplMAgAAgA==');
     });
 
     it('Testing Medium', () => {
@@ -75,7 +87,7 @@ describe('Testing Functionality', () => {
       expect(compressorAuto.compress(input)).to.equal('H4sIAAAAAAACA/v/HwdgAADNM+XfGgAAgA==');
       expect(compressorForce.compress(input)).to.equal('H4sIAAAAAAACA/v/HwdgAADNM+XfGgAAgA==');
       expect(compressorNever.compress(input)).to.equal('/////////////////////////////////wA=');
-      expect(compressororceButNoCompression.compress(input))
+      expect(compressorForceButNoCompression.compress(input))
         .to.equal('H4sIAAAAAAAEAwEaAOX//////////////////////////////////wDNM+XfGgAAgA==');
     });
   });
@@ -118,5 +130,5 @@ describe('Testing Functionality', () => {
       const toValidate = [...input].sort((a, b) => a - b);
       validate(toValidate);
     }
-  }).timeout(10000);
+  });
 });
