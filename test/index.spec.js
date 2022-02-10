@@ -1,13 +1,13 @@
-const expect = require('chai').expect;
-const { describe } = require('node-tdd');
-const SetCompressor = require('../src/index');
+import { expect } from 'chai';
+import { describe } from 'node-tdd';
+import { Compressor, constants } from '../src/index.js';
 
 describe('Testing Functionality', { timeout: 10000 }, () => {
   let compressor;
   let validate;
 
   before(() => {
-    compressor = SetCompressor.Compressor();
+    compressor = Compressor();
     validate = (input) => {
       const result = compressor.decompress(compressor.compress(input));
       expect(input).to.deep.equal(Array.isArray(input) ? result : new Set(result));
@@ -51,17 +51,17 @@ describe('Testing Functionality', { timeout: 10000 }, () => {
     let compressorForceButNoCompression;
 
     before(() => {
-      compressorAuto = SetCompressor.Compressor({
-        gzip: SetCompressor.constants.GZIP_MODE.AUTO
+      compressorAuto = Compressor({
+        gzip: constants.GZIP_MODE.AUTO
       });
-      compressorForce = SetCompressor.Compressor({
-        gzip: SetCompressor.constants.GZIP_MODE.FORCE
+      compressorForce = Compressor({
+        gzip: constants.GZIP_MODE.FORCE
       });
-      compressorNever = SetCompressor.Compressor({
-        gzip: SetCompressor.constants.GZIP_MODE.NEVER
+      compressorNever = Compressor({
+        gzip: constants.GZIP_MODE.NEVER
       });
-      compressorForceButNoCompression = SetCompressor.Compressor({
-        gzip: SetCompressor.constants.GZIP_MODE.FORCE,
+      compressorForceButNoCompression = Compressor({
+        gzip: constants.GZIP_MODE.FORCE,
         gzipLevel: 0
       });
     });
