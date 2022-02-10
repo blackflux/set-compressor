@@ -1,16 +1,16 @@
 /* eslint-disable no-bitwise */
-const zlib = require('zlib');
-const assert = require('assert');
-const constants = require('./constants');
+import zlib from 'zlib';
+import assert from 'assert';
+import { GZIP_MODE } from './constants.js';
 
-module.exports.Compressor = (args) => {
+export default (args) => {
   const options = {
-    gzip: constants.GZIP_MODE.AUTO,
+    gzip: GZIP_MODE.AUTO,
     gzipLevel: zlib.constants.Z_BEST_COMPRESSION,
     ...args
   };
   assert(Object.keys(options).length === 2);
-  assert(Object.keys(constants.GZIP_MODE).includes(options.gzip));
+  assert(Object.keys(GZIP_MODE).includes(options.gzip));
   assert([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].includes(options.gzipLevel));
 
   return {
@@ -34,7 +34,7 @@ module.exports.Compressor = (args) => {
       iterable.forEach((entry) => {
         uncompressed[Math.floor(entry / 8)] |= (1 << (entry % 8));
       });
-      if (options.gzip === constants.GZIP_MODE.NEVER) {
+      if (options.gzip === GZIP_MODE.NEVER) {
         return uncompressed.toString('base64');
       }
 
@@ -51,10 +51,10 @@ module.exports.Compressor = (args) => {
         'Internal Error (Compressed)'
       );
       compressed[compressed.length - 1] |= (1 << 7);
-      if (options.gzip === constants.GZIP_MODE.AUTO) {
+      if (options.gzip === GZIP_MODE.AUTO) {
         return (compressed.length < uncompressed.length ? compressed : uncompressed).toString('base64');
       }
-      // constants.GZIP_MODE.FORCE
+      // GZIP_MODE.FORCE
       return compressed.toString('base64');
     },
     decompress: (string) => {
