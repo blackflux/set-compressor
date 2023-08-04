@@ -8,9 +8,10 @@
       "packageName": "set-compressor",
       "projectName": "set-compressor",
       "owner": "simlu",
-      "nodeVersion": "14",
+      "nodeVersion": "16",
       "ownerName": "Lukas Siemon",
-      "mergeBot": "MrsFlux"
+      "mergeBot": "MrsFlux",
+      "nccEnabled": false
     }
   }
 }
