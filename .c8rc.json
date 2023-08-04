@@ -3,7 +3,8 @@
     "gardener.js",
     "node_modules/*",
     "coverage/*",
-    "lib/*"
+    "lib/*",
+    "test/hot.js"
   ],
   "temp-directory": "./coverage/.c8_output",
   "reports-dir": "./coverage",
@@ -20,7 +21,7 @@
     "lcov",
     "text-summary"
   ],
-  "extension": [],
+  "extension": {},
   "all": true,
   "skip-full": true,
   "clean": true
